@@ -1,0 +1,82 @@
+nikhil123
+nikhil2000
+
+create table BRANCH( 
+branch_name varchar2(20),
+branch_city varchar2(20),
+assets number(10,2),
+primary key(branch_name)
+);
+
+create table ACCOUNTS(
+accno number(11),
+branch_name varchar2(20),
+balance number(10,2),
+primary key(accno),
+foreign key(branch_name) references branch(branch_name)
+);
+
+create table CUSTOMER(
+customer_name varchar2(20),
+customer_street varchar2(20),
+customer_city varchar2(20),
+primary key(customer_name)
+);
+
+create table DEPOSITOR(
+customer_name varchar2(20),
+accno number(11),
+foreign key(customer_name) references customer(customer_name)
+);
+
+create table LOAN(
+loan_number number(5), 
+branch_name varchar2(20),
+amount number(10,2),
+primary key(loan_number),
+foreign key(branch_name) references branch(branch_name)
+)
+
+create table BORROWER(
+customer_name varchar2(20),
+loan_number number(5),
+foreign key(customer_name) references customer(customer_name)
+)
+
+select* from branch;
+select* from accounts;
+select* from customer;
+select* from depositor;
+select* from loan;
+select* from borrower;
+
+insert into branch values('chagachagere','arsikere',2780000.00);
+insert into branch values('hosalli','mysore',1000000.00);
+insert into branch values('hirekere','hassan',3000000.00);
+
+insert into accounts values('123456789','chagachagere',80000.00);
+insert into accounts values('987654321','hosalli',9000.00);
+insert into accounts values('147258369','hirekere',12000.00);
+
+insert into customer values('nikhil','arekere','arsikere');
+insert into customer values('madhu','marekere','mysore');
+insert into customer values('manu','marikatte','hassan');
+
+insert into depositor values('nikhil',123456789);
+insert into depositor values('madhu',987654321);
+insert into depositor values('manu',147258369);
+
+insert into loan values(123,'chagachagere',20000);
+insert into loan values(124,'hosalli',30000);
+insert into loan values(125,'hirekere',40000);
+
+insert into borrower values('nikhil',123);
+insert into borrower values('madhu',124);
+insert into borrower values('manu',125);
+
+
+
+
+
+
+
