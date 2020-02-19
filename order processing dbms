@@ -1,0 +1,53 @@
+create table customer1(
+cust_id number(5), 
+cname varchar2(20),
+city varchar2(20),
+primary key(cust_id)
+);
+
+create table order1(
+order_id number(5), 
+odate date,
+cust_id number(5), 
+ord_amt number(10),
+primary key(order_id),
+foreign key(cust_id) references customer1(cust_id)
+); 
+
+create table ITEM1(
+item number(10), 
+unit_price number(10),
+primary key(item)
+);
+
+create table ORDER_ITEM1(
+order_id number(5),
+item number(10),
+qty number(5),
+foreign key(order_id) references order1(order_id) on delete cascade,
+foreign key(item) references item1(item) on delete cascade
+);
+
+
+create table WAREHOUSE1(
+warehouse_id number(5),
+city varchar2(20),
+primary key(warehouse_id)
+);
+
+ create table SHIPMENT1(
+order_id number(5),
+warehouse_id number(5), 
+ship_date date,
+foreign key(order_id) references order1(order_id) on delete cascade,
+foreign key(warehouse_id) references warehouse1(warehouse_id) on delete cascade
+);
+
+insert into customer1 values(775,'FAIZAL','BANGALORE');
+select* from customer1;
+insert into order1 values(120, '13-OCT-05', 775, 29000);
+select* from order1;
+insert into item1 values(5005 ,890);
+insert into order_item1 values(120 ,5004 ,45);
+insert into warehouse1 values(10,'BANGALORE');
+insert into shipment1 values(120, 6 ,'21-DEC-05');
