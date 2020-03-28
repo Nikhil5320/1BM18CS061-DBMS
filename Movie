@@ -1,0 +1,76 @@
+1.Consider the schema for Movie Database: ACTOR(Act_id, 
+Act_Name, Act_Gender) 
+DIRECTOR(Dir_id, Dir_Name, Dir_Phone) 
+MOVIES(Mov_id, Mov_Title, Mov_Year, Mov_Lang, Dir_id)
+ MOVIE_CAST(Act_id, Mov_id, Role)
+ RATING(Mov_id, Rev_Stars) 
+Write SQL queries to :
+1. List the titles of all movies directed by ‘Hitchcock’. 
+2. Find the movie names where one or more actors acted in two or more movies. 
+3. List all actors who acted in a movie before 2000 and also in a movie after 2015 (use JOIN operation).
+4. Find the title of movies and number of stars for each movie that has 
+at least one rating and find the highest number of stars that 
+movie received. Sort the result by movie title. 5. Update rating 
+of all movies directed by ‘Steven Spielberg’ to 5.
+
+
+create database movie;
+use movie;
+create table actor(
+    act_id int,
+    act_name varchar(20),
+    act_gender varchar(30),
+    primary key(act_id)
+    );
+create table DIRECTOR (
+    dir_id int,
+    dir_name varchar(30),
+    dir_phone bigint,
+    primary key(dir_id)
+    );
+create table movies ( 
+              mov_id int, 
+               mov_title varchar(30), 
+               mov_year int, 
+              mov_lang varchar(30), 
+            dir_id int,
+           primary key(mov_id), 
+         FOREIGN key(dir_id) REFERENCES director(dir_id) 
+         );
+create table movie_cast ( 
+              act_id int, 
+             mov_id int, 
+             role varchar(30),
+           FOREIGN KEY(act_id) REFERENCES actor(act_id),
+          FOREIGN key(mov_id) REFERENCES movies(mov_id) 
+        );
+  create table rating ( 
+        mov_id int, 
+       rev_stars int,
+        foreign key(mov_id) references movies(mov_id)               
+ );
+ 
+INSERT INTO actor VALUES ('101', 'sowmya', 'f');
+INSERT INTO actor VALUES ('102', 'radha', 'f');
+INSERT INTO actor VALUES ('103', 'raghav', 'm');
+INSERT INTO actor VALUES ('104', 'sanjith', 'm');
+INSERT INTO director  VALUES ('50', 'rajmouli', '8861621844');
+INSERT INTO director VALUES ('51', 'steven spielberg', '7760521044');
+INSERT INTO director VALUES ('52', 'hitchcock', '9964786122');
+INSERT INTO director VALUES ('53', 'karan', '8766488994');
+INSERT INTO movies VALUES ('1001', 'kgf1', '2018', 'kannada', '51');
+INSERT INTO movies VALUES ('1002', 'bulbul', '2016', 'kannada', '51');
+INSERT INTO movies VALUES ('1003', 'bigil', '2019', 'tamil', '52');
+INSERT INTO movies VALUES ('1004', 'immaiku', '2018', 'telagu', '52');
+INSERT INTO movie_cast VALUES ('101', '1001', 'heroine');
+INSERT INTO movie_cast VALUES ('101', '1002', 'heroine');
+INSERT INTO movie_cast VALUES ('103', '1003', 'hero');
+INSERT INTO movie_cast VALUES ('103', '1002', 'guest');
+INSERT INTO  movie_cast VALUES ('104', '1004', 'hero');
+INSERT INTO rating VALUES ('1001', '4');
+INSERT INTO rating VALUES ('1002', '2');
+INSERT INTO rating VALUES ('1003', '5');
+INSERT INTO rating VALUES ('1004', '4');
+Queries : 
+σ π ρ ⋈
+select mov_title from director d,movies m where m.dir_id=d.dir_id and dir_name='Hitchcock';
