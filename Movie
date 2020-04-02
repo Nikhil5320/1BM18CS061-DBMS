@@ -73,4 +73,10 @@ INSERT INTO rating VALUES ('1003', '5');
 INSERT INTO rating VALUES ('1004', '4');
 Queries : 
 σ π ρ ⋈
-select mov_title from director d,movies m where m.dir_id=d.dir_id and dir_name='Hitchcock';
+1.select mov_title from director d,movies m where m.dir_id=d.dir_id and dir_name='Hitchcock';
+2. select m.mov_title from movies m,movie_cast c where m.mov_id=c.mov_id and c.act_id in(select c.act_id from movie_cast c group by c.act_id having count(c.mov_id)>2);
+3.selselect m.mov_title from movies m,movie_cast c where m.mov_id=c.mov_id and c.act_id in(select c.act_id from movie_cast group by act_id having count(act_id>2));ect a.act_name from actor a,movies m,movie_cast c WHERE a.act_id = c.act_id and c.mov_id=m.mov_id and mov_year>2015 OR mov_year<2000 ;
+4.select m.mov_title,count(c.act_id) FROM movies m ,movie_cast c where m.mov_id=c.mov_id and c.mov_id in(select mov_id from rating where rev_stars>=1) group by m.mov_title;
+5.update rating
+set rev_stars=5
+where rating.mov_id in(select movies.mov_id from movies,director where director.dir_name="Steven Spielberg" and director.dir_id=movies.dir_id);
