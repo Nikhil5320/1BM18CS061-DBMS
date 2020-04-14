@@ -1,0 +1,76 @@
+SET SQL_MODE='ALLOW_INVALID_DATES';
+CREATE table flights
+(
+    flno int(30),
+    fromfl varchar(30),
+    tofl varchar(30),
+    distance int(30),
+    departs timestamp,
+    arrives timestamp,
+    price int(30),
+    primary key(flno));
+    
+CREATE table aircraft 
+( 
+     aid int(30), 
+     aname varchar(30),  
+     cruisingrange int(30), 
+      primary key(aid));
+      
+create table employess(
+eid int(30),
+ename varchar(20),
+salary int(30),
+primary key(eid));
+
+create table certified(
+eid int(30),
+aid int(30),
+foreign key(eid) references employess(eid),
+foreign key(aid) references aircraft(aid));
+
+INSERT INTO flights (`flno`, `fromfl`, `tofl`, `distance`, `depart`, `arrives`, `price`) VALUES
+('101', 'bangalore', 'delhi', '2500', '05/05/13 07:15:31.000000000', '05/05/13 17:15:31.000000000',
+'5000');
+INSERT INTO aircraft (`aid`, `aname`, `cruisingrange`) VALUES ('101', '747', '3000');
+INSERT INTO aircraft  (`aid`, `aname`, `cruisingrange`) VALUES ('102', 'boeing', '900');
+INSERT INTO aircraft  (`aid`, `aname`, `cruisingrange`) VALUES ('103', '647', '800');
+INSERT INTO aircraft  (`aid`, `aname`, `cruisingrange`) VALUES ('104', 'dreamliner', '10000');
+INSERT INTO aircraft  (`aid`, `aname`, `cruisingrange`) VALUES ('105', 'boeing', '3500');
+INSERT INTO aircraft  (`aid`, `aname`, `cruisingrange`) VALUES ('106', '707', '1500');
+INSERT INTO aircraft  (`aid`, `aname`, `cruisingrange`) VALUES ('107', 'dream', '120000');
+INSERT INTO employess (`eid`, `ename`, `salary`) VALUES ('701', 'A', '50000');
+INSERT INTO employess (`eid`, `ename`, `salary`) VALUES ('702', 'B', '100000');
+INSERT INTO employess (`eid`, `ename`, `salary`) VALUES ('703', 'C', '150000');
+INSERT INTO employess (`eid`, `ename`, `salary`) VALUES ('704', 'D', '90000');
+INSERT INTO employess (`eid`, `ename`, `salary`) VALUES ('705', 'E', '40000');
+INSERT INTO employess (`eid`, `ename`, `salary`) VALUES ('706', 'F', '60000');
+INSERT INTO employess (`eid`, `ename`, `salary`) VALUES ('707', 'G', '90000');
+
+INSERT INTO certified (`eid`, `aid`) VALUES ('701', '101');
+INSERT INTO certified (`eid`, `aid`) VALUES ('701', '102');
+INSERT INTO certified (`eid`, `aid`) VALUES ('701', '106');
+INSERT INTO certified (`eid`, `aid`) VALUES ('701', '105');
+INSERT INTO certified (`eid`, `aid`) VALUES ('702', '104');
+INSERT INTO certified (`eid`, `aid`) VALUES ('703', '104');
+INSERT INTO certified (`eid`, `aid`) VALUES ('704', '104');
+INSERT INTO certified (`eid`, `aid`) VALUES ('702', '107');
+INSERT INTO certified (`eid`, `aid`) VALUES ('703', '107');
+INSERT INTO certified (`eid`, `aid`) VALUES ('704', '107');
+INSERT INTO certified (`eid`, `aid`) VALUES ('702', '101');
+INSERT INTO certified (`eid`, `aid`) VALUES ('703', '105');
+INSERT INTO certified (`eid`, `aid`) VALUES ('704', '105');
+INSERT INTO certified (`eid`, `aid`) VALUES ('705', '103');
+
+/*Write each of the following queries in SQL. 
+i. Find the names of aircraft such that all pilots certified to operate them have salaries more than Rs.80,000.
+ii. For each pilot who is certified for more than three aircrafts, find the eid and the maximum cruising range of the aircraft for which she or he is certified. 
+iii. Find the names of pilots whose salary is less than the price of the cheapest route from Bengaluru to Frankfurt. 
+iv. For all aircraft with cruising range over 1000 Kms, find the name of the aircraft and the average salary of all pilots certified for this aircraft. 
+v. Find the names of pilots certified for some Boeing aircraft. 
+vi. Find the aids of all aircraft that can be used on routes from Bengaluru to New Delhi. 
+vii. A customer wants to travel from Madison to New York with no more than two changes of flight. List the choice of departure times from Madison if the customer wants to arrive in New York by 6 p.m. 
+viii. Print the name and salary of every non pilot whose salary is more than the average  salary 
+       for pilots.*/
+1.select DISTINCT a.aname FROM aircraft a, employess e,certified c where e.salary > 80000 and a.aid=c.aid and c.eid=e.eid; 
+2.SELECT e.eid,max(a.cruisingrange) from aircraft a,employess e,certified c  where a.aid=c.aid and c.eid=e.eid and a.aid in(select c.aid form certified c group by c.eid having count(*)>3) ;
